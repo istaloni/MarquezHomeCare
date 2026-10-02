@@ -1,7 +1,7 @@
 /* ==========================================================================
    Marquez Family Home Care — built on the Marquez design system
    Botanical greenhouse on cream paper: one forest-ink dark, layered green
-   surfaces, Cormorant Garamond 300 display + Inter text. No shadows.
+   surfaces, Playfair Display 400 display + Plus Jakarta Sans text. No shadows.
    ========================================================================== */
 
 :root {
@@ -19,8 +19,8 @@
   --border-mist: #efeeeb;   /* decorative hairlines only */
 
   /* Type */
-  --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --font-sans: Inter, "Helvetica Neue", system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Helvetica Neue", system-ui, sans-serif;
 
   /* Space — ~7px rhythm */
   --space-4: 4px;  --space-7: 7px;  --space-9: 9px;  --space-11: 11px;
@@ -107,12 +107,12 @@ textarea:focus-visible {
 .heading-lg,
 .heading {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   color: var(--forest-ink);
 }
-.display    { font-size: clamp(46px, 7vw, 74px); line-height: 1.05; letter-spacing: -0.03em; }
-.heading-lg { font-size: clamp(38px, 5vw, 56px); line-height: 1.2;  letter-spacing: -0.03em; }
-.heading    { font-size: clamp(30px, 3.4vw, 40px); line-height: 1.35; letter-spacing: -0.01em; }
+.display    { font-size: clamp(44px, 6.4vw, 68px); line-height: 1.08; letter-spacing: -0.02em; }
+.heading-lg { font-size: clamp(34px, 4.4vw, 50px); line-height: 1.2;  letter-spacing: -0.02em; }
+.heading    { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.3; letter-spacing: -0.01em; }
 
 .heading-sm   { font: 400 23px/1.5 var(--font-sans); color: var(--forest-ink); }
 .subheading   { font: 300 18px/1.45 var(--font-sans); color: var(--charcoal); }
@@ -213,7 +213,7 @@ textarea:focus-visible {
   padding-block: var(--space-21);
 }
 .nav__brand {
-  font: 300 28px/1 var(--font-display);
+  font: 400 28px/1 var(--font-display);
   letter-spacing: -0.01em;
   color: var(--forest-ink);
   text-decoration: none;
@@ -285,7 +285,7 @@ textarea:focus-visible {
 }
 .preview-card p { margin-top: var(--space-7); }
 .preview-card .preview-title {
-  font: 300 26px/1.25 var(--font-display);
+  font: 400 26px/1.25 var(--font-display);
   color: var(--forest-ink);
   margin-top: var(--space-4);
 }
@@ -325,7 +325,7 @@ textarea:focus-visible {
 }
 .service .icon { margin-bottom: var(--space-42); }
 .service h3 {
-  font: 300 30px/1.2 var(--font-display);
+  font: 400 30px/1.2 var(--font-display);
   letter-spacing: -0.01em;
   color: var(--forest-ink);
   margin-bottom: var(--space-11);
@@ -345,7 +345,7 @@ textarea:focus-visible {
   counter-increment: step;
   content: "0" counter(step);
   display: block;
-  font: 300 56px/1 var(--font-display);
+  font: 400 56px/1 var(--font-display);
   letter-spacing: -0.03em;
   color: var(--forest-ink);
   margin-bottom: var(--space-28);
@@ -383,7 +383,7 @@ textarea:focus-visible {
 }
 .faq__row:first-child { border-top: 1px solid var(--border-mist); }
 .faq__q {
-  font: 300 clamp(26px, 3vw, 34px)/1.3 var(--font-display);
+  font: 400 clamp(26px, 3vw, 34px)/1.3 var(--font-display);
   letter-spacing: -0.01em;
   color: var(--forest-ink);
 }
@@ -400,7 +400,7 @@ textarea:focus-visible {
 .contact__details { list-style: none; padding: 0; margin-top: auto; padding-top: var(--space-42); display: grid; gap: var(--space-14); }
 .contact__details li { display: grid; gap: var(--space-4); }
 .contact__details .label { font: 600 11px/1.3 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--forest-ink); }
-.contact__details .value { font: 300 24px/1.3 var(--font-display); color: var(--forest-ink); }
+.contact__details .value { font: 400 24px/1.3 var(--font-display); color: var(--forest-ink); }
 .contact__details a.value { text-decoration: none; }
 .contact__details a.value:hover { text-decoration: underline; }
 
@@ -444,7 +444,7 @@ textarea:focus-visible {
   gap: var(--space-21);
   flex-wrap: wrap;
 }
-.footer__brand { font: 300 24px/1 var(--font-display); color: var(--forest-ink); }
+.footer__brand { font: 400 24px/1 var(--font-display); color: var(--forest-ink); }
 .footer p + p { margin-top: var(--space-4); }
 
 /* ==========================================================================
