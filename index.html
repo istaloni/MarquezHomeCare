@@ -11,12 +11,19 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Marquez Family Home Care" />
   <meta property="og:description" content="Trusted, non-medical home care for San Diego families." />
+  <meta property="og:image" content="images/marquez-logo-horizontal-on-forest-1200.png" />
 
   <!-- Fonts: Playfair Display (display, 400) + Plus Jakarta Sans (text, 300/400/600) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicon and home-screen icons -->
+  <link rel="icon" href="images/favicon.ico" sizes="any" />
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <link rel="manifest" href="images/site.webmanifest" />
 
   <!-- Helps Google show the business correctly in local search -->
   <script type="application/ld+json">
@@ -45,7 +52,9 @@
   <!-- Navigation -->
   <header class="container">
     <nav class="nav" aria-label="Main">
-      <a href="#" class="nav__brand">Marquez Family Home Care</a>
+      <a href="#" class="nav__brand">
+        <img src="images/marquez-logo-horizontal.svg" alt="Marquez Family Home Care" width="234" height="80" />
+      </a>
       <ul class="nav__links">
         <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
@@ -73,12 +82,12 @@
             <a href="#services" class="link-arrow">Explore our services</a>
           </div>
           <ul class="hero__badges" aria-label="Our standards">
-            <li class="badge">Background-checked caregivers</li>
-            <li class="badge">CDSS licensed and insured</li>
+            <li class="badge badge--orchid">Background-checked caregivers</li>
+            <li class="badge badge--orchid">CDSS licensed and insured</li>
           </ul>
         </div>
 
-        <div class="hero__preview card card--slate" aria-label="What a visit looks like">
+        <div class="hero__preview card card--sage" aria-label="What a visit looks like">
           <div class="card card--paper preview-card">
             <p class="preview-label">Your caregiver</p>
             <p class="preview-title">The same caregiver, every visit</p>
@@ -92,8 +101,8 @@
               <li><time>12:00</time><span>A home-cooked lunch together</span></li>
             </ul>
           </div>
-          <div class="card card--paper preview-card">
-            <p class="preview-label">Family update</p>
+          <div class="card card--blush preview-card">
+            <p class="preview-label preview-label--orchid">Family update</p>
             <p>Mom had a good day. We finished her puzzle and she called her granddaughter after lunch.</p>
           </div>
         </div>
@@ -296,7 +305,7 @@
   <footer class="footer">
     <div class="container">
       <div>
-        <p class="footer__brand">Marquez Family Home Care</p>
+        <img class="footer__logo" src="images/marquez-logo-horizontal.svg" alt="Marquez Family Home Care" width="187" height="64" />
         <p class="caption" style="margin-top: 11px;">Non-medical home care organization serving San Diego County, California.</p>
       </div>
       <div>

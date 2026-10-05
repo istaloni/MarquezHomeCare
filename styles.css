@@ -1,38 +1,55 @@
 /* ==========================================================================
    Marquez Family Home Care — built on the Marquez design system
    Botanical greenhouse on cream paper: one forest-ink dark, layered green
-   surfaces, Playfair Display 400 display + Plus Jakarta Sans text. No shadows.
+   surfaces, orchid accents (~10%), Playfair Display 400 display + Plus Jakarta
+   Sans text. No shadows.
    ========================================================================== */
 
 :root {
-  /* Color — surfaces (lightest → heaviest) */
-  --cream-paper: #fffefc;   /* level 0: page */
-  --keylime-wash: #e1f4df;  /* level 1: hero, light cards */
-  --mint-veil: #cfe7d3;     /* level 2: accent cards, bands */
-  --sage-mist: #b1dbb8;     /* level 3: feature highlights */
-  --slate-hush: #b6ced5;    /* level 4: preview panel only */
+  /* Colors */
+  --cream-paper: #fffefc;
+  --keylime-wash: #e1f4df;
+  --mint-veil: #cfe7d3;
+  --sage-mist: #b1dbb8;
+  --forest-ink: #0f3e17;
+  --forest-shadow: #0c2f10;
+  --charcoal: #222222;
+  --blush-veil: #fbe9ee;
+  --orchid-blush: #f4c2ce;
+  --orchid-burgundy: #7a1f3d;
+  --border-mist: #efeeeb;
 
-  /* Color — ink */
-  --forest-ink: #0f3e17;    /* headings, links, icons, every action */
-  --forest-shadow: #0c2f10; /* hover / pressed */
-  --charcoal: #222222;      /* body copy */
-  --border-mist: #efeeeb;   /* decorative hairlines only */
-
-  /* Type */
+  /* Fonts */
   --font-display: "Playfair Display", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", "Helvetica Neue", system-ui, sans-serif;
 
-  /* Space — ~7px rhythm */
-  --space-4: 4px;  --space-7: 7px;  --space-9: 9px;  --space-11: 11px;
-  --space-14: 14px; --space-18: 18px; --space-21: 21px; --space-28: 28px;
-  --space-35: 35px; --space-42: 42px; --space-49: 49px; --space-56: 56px;
-  --space-70: 70px; --space-76: 76px; --space-99: 99px; --space-156: 156px;
+  /* Spacing */
+  --space-4: 4px;
+  --space-7: 7px;
+  --space-9: 9px;
+  --space-11: 11px;
+  --space-14: 14px;
+  --space-18: 18px;
+  --space-21: 21px;
+  --space-28: 28px;
+  --space-35: 35px;
+  --space-42: 42px;
+  --space-49: 49px;
+  --space-56: 56px;
+  --space-70: 70px;
+  --space-76: 76px;
+  --space-99: 99px;
+  --space-156: 156px;
 
-  /* Shape */
+  /* Radius */
   --radius-nav: 7px;
   --radius-card: 14px;
   --radius-pill: 999px;
 
+  /* Shadow */
+  --shadow-none: none;
+
+  /* Layout */
   --page-max-width: 1200px;
 }
 
@@ -171,6 +188,7 @@ textarea:focus-visible {
   font: 400 14px/1 var(--font-sans);
 }
 .badge svg { width: 14px; height: 14px; }
+.badge--orchid { background: var(--orchid-blush); color: var(--orchid-burgundy); }
 
 /* Icon strokes — minimal 1.5px forest-ink lines, no fills */
 .icon {
@@ -186,8 +204,8 @@ textarea:focus-visible {
 .card--keylime { background: var(--keylime-wash); padding: var(--space-28); }
 .card--mint    { background: var(--mint-veil);    padding: var(--space-28); }
 .card--sage    { background: var(--sage-mist);    padding: var(--space-42); }
-.card--slate   { background: var(--slate-hush);   padding: var(--space-42); }
 .card--paper   { background: var(--cream-paper);  padding: var(--space-28); }
+.card--blush   { background: var(--blush-veil);   padding: var(--space-28); }
 
 /* ==========================================================================
    Header
@@ -210,14 +228,10 @@ textarea:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-21);
-  padding-block: var(--space-21);
+  padding-block: var(--space-14);
 }
-.nav__brand {
-  font: 400 28px/1 var(--font-display);
-  letter-spacing: -0.01em;
-  color: var(--forest-ink);
-  text-decoration: none;
-}
+.nav__brand { display: block; flex-shrink: 0; }
+.nav__brand img { height: 80px; width: auto; }
 .nav__links {
   display: flex;
   gap: var(--space-4);
@@ -235,7 +249,7 @@ textarea:focus-visible {
 .nav__links a:hover { background: var(--keylime-wash); }
 
 /* ==========================================================================
-   Hero — keylime story panel + slate preview panel
+   Hero — keylime story panel + sage preview panel
    ========================================================================== */
 .hero { padding-top: var(--space-14); }
 
@@ -283,6 +297,7 @@ textarea:focus-visible {
   color: var(--forest-ink);
   margin-bottom: var(--space-4);
 }
+.preview-label--orchid { color: var(--orchid-burgundy); }
 .preview-card p { margin-top: var(--space-7); }
 .preview-card .preview-title {
   font: 400 26px/1.25 var(--font-display);
@@ -347,7 +362,7 @@ textarea:focus-visible {
   display: block;
   font: 400 56px/1 var(--font-display);
   letter-spacing: -0.03em;
-  color: var(--forest-ink);
+  color: var(--orchid-burgundy);
   margin-bottom: var(--space-28);
 }
 .step h3 { font: 400 18px/1.4 var(--font-sans); color: var(--forest-ink); margin-bottom: var(--space-7); }
@@ -444,7 +459,7 @@ textarea:focus-visible {
   gap: var(--space-21);
   flex-wrap: wrap;
 }
-.footer__brand { font: 400 24px/1 var(--font-display); color: var(--forest-ink); }
+.footer__logo { height: 64px; width: auto; }
 .footer p + p { margin-top: var(--space-4); }
 
 /* ==========================================================================
@@ -466,7 +481,7 @@ textarea:focus-visible {
   .nav__links { order: 3; width: calc(100% + 28px); overflow-x: auto; margin-inline: calc(var(--space-14) * -1); scrollbar-width: none; }
   .nav__links a { white-space: nowrap; }
   .nav__cta { padding: var(--space-11) var(--space-14); }
-  .nav__brand { font-size: 24px; }
+  .nav__brand img { height: 60px; }
   .utility .container { justify-content: center; }
   .utility__area { display: none; }
 
@@ -476,7 +491,7 @@ textarea:focus-visible {
   .form-row { grid-template-columns: 1fr; gap: 0; }
 
   .hero__story { padding: var(--space-42) var(--space-28); }
-  .card--sage, .card--slate { padding: var(--space-28); }
+  .card--sage { padding: var(--space-28); }
   .service .icon { margin-bottom: var(--space-28); }
   .footer .container { flex-direction: column; align-items: start; }
 }
