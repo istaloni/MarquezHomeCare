@@ -1,7 +1,7 @@
 /* ==========================================================================
    Marquez Family Home Care — built on the Marquez design system
    Botanical greenhouse on cream paper: one forest-ink dark, layered green
-   surfaces, orchid accents (~10%), Playfair Display 400 display + Plus Jakarta
+   surfaces, orchid accents (~10%), Lora 400 display (matches the logo) + Plus Jakarta
    Sans text. No shadows.
    ========================================================================== */
 
@@ -20,7 +20,7 @@
   --border-mist: #efeeeb;
 
   /* Fonts */
-  --font-display: "Playfair Display", Georgia, serif;
+  --font-display: Lora, Georgia, serif;
   --font-sans: "Plus Jakarta Sans", "Helvetica Neue", system-ui, sans-serif;
 
   /* Spacing */
@@ -123,6 +123,7 @@ textarea:focus-visible {
 .display,
 .heading-lg,
 .heading {
+  text-wrap: balance;
   font-family: var(--font-display);
   font-weight: 400;
   color: var(--forest-ink);
@@ -299,6 +300,9 @@ textarea:focus-visible {
 }
 .preview-label--orchid { color: var(--orchid-burgundy); }
 .preview-card p { margin-top: var(--space-7); }
+.preview-card .preview-title,
+.faq__q,
+.service h3 { text-wrap: balance; }
 .preview-card .preview-title {
   font: 400 26px/1.25 var(--font-display);
   color: var(--forest-ink);
