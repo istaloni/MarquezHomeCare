@@ -1,0 +1,15 @@
+---
+title: "Notes from our family"
+subtitle: "Research and practical guidance for families caring for a loved one at home in San Diego County."
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  fields: [date, title, description, categories, reading-time]
+  date-format: "MMMM D, YYYY"
+page-layout: full
+toc: false
+---

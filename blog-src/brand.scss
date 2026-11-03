@@ -1,0 +1,70 @@
+/*-- scss:defaults --*/
+
+// Marquez Family Home Care: Bootstrap variables mapped to the design system.
+// Botanical greenhouse on cream paper. One forest-ink dark, layered greens, orchid accents (~10%).
+// Fonts match the live website: Lora 400 for display, Plus Jakarta Sans for text.
+
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap");
+
+// Palette
+$cream-paper:     #fffefc;
+$keylime-wash:    #e1f4df;
+$mint-veil:       #cfe7d3;
+$sage-mist:       #b1dbb8;
+$forest-ink:      #0f3e17;
+$forest-shadow:   #0c2f10;
+$charcoal:        #222222;
+$blush-veil:      #fbe9ee;
+$orchid-blush:    #f4c2ce;
+$orchid-burgundy: #7a1f3d;
+$border-mist:     #efeeeb;
+
+// Bootstrap mapping
+$body-bg:            $cream-paper;
+$body-color:         $charcoal;
+$primary:            $forest-ink;
+$secondary:          $orchid-burgundy;
+$success:            $forest-ink;
+$light:              $keylime-wash;
+$dark:               $forest-ink;
+$link-color:         $forest-ink;
+$link-hover-color:   $forest-shadow;
+$border-color:       $border-mist;
+
+$font-family-sans-serif: "Plus Jakarta Sans", "Helvetica Neue", system-ui, sans-serif;
+$headings-font-family:   Lora, Georgia, serif;
+$headings-font-weight:   400;
+$headings-color:         $forest-ink;
+$line-height-base:       1.6;
+
+$border-radius:     14px;
+$border-radius-sm:  7px;
+$border-radius-lg:  14px;
+$enable-shadows:    false;
+$box-shadow:        none;
+$box-shadow-sm:     none;
+$box-shadow-lg:     none;
+
+$navbar-bg:         $cream-paper;
+$navbar-fg:         $charcoal;
+$navbar-hl:         $forest-ink;
+$footer-bg:         $cream-paper;
+$footer-fg:         $charcoal;
+
+$code-block-bg:     $keylime-wash;
+$code-color:        $orchid-burgundy;
+
+$callout-color-note:      $forest-ink;
+$callout-color-tip:       $forest-ink;
+$callout-color-important: $orchid-burgundy;
+$callout-color-caution:   $orchid-burgundy;
+
+$table-border-color:  $border-mist;
+$table-striped-bg:    $keylime-wash;
+
+/*-- scss:rules --*/
+
+h1, h2, h3, .title, .listing-title {
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}

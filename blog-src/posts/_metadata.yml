@@ -1,0 +1,9 @@
+# Applies to every post in this folder
+author: "Karl Marquez"
+date-format: "MMMM D, YYYY"
+
+# Posts are frozen: once rendered, their R code isn't re-run on later site renders.
+# To refresh a post's numbers, render it on purpose:
+#   quarto render posts/<post-folder>/index.qmd
+execute:
+  freeze: true

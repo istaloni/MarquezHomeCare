@@ -1,0 +1,409 @@
+/* ==========================================================================
+   Marquez Family Home Care — blog styles
+   Built on the Marquez design system (same tokens as the website's styles.css).
+   The logo and orchid mark are drawn here with CSS, from images/ in this project.
+   ========================================================================== */
+
+:root {
+  --cream-paper: #fffefc;
+  --keylime-wash: #e1f4df;
+  --mint-veil: #cfe7d3;
+  --sage-mist: #b1dbb8;
+  --forest-ink: #0f3e17;
+  --forest-shadow: #0c2f10;
+  --charcoal: #222222;
+  --blush-veil: #fbe9ee;
+  --orchid-blush: #f4c2ce;
+  --orchid-burgundy: #7a1f3d;
+  --border-mist: #efeeeb;
+
+  --font-display: Lora, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Helvetica Neue", system-ui, sans-serif;
+
+  --space-7: 7px;
+  --space-11: 11px;
+  --space-14: 14px;
+  --space-18: 18px;
+  --space-21: 21px;
+  --space-28: 28px;
+  --space-42: 42px;
+  --space-56: 56px;
+
+  --radius-nav: 7px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+}
+
+body {
+  background: var(--cream-paper);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Logo in the navbar — drawn with CSS, site title kept for screen readers
+   ========================================================================== */
+.navbar {
+  background: var(--cream-paper) !important;
+  border-bottom: 1px solid var(--border-mist);
+  padding-block: var(--space-14);
+  box-shadow: none !important;
+}
+
+.navbar-brand {
+  display: block;
+  width: 245px;   /* logo minimum is 160px wide */
+  height: 80px;
+  background: url("images/marquez-logo-horizontal.svg") left center / contain no-repeat;
+  margin-right: var(--space-28);
+}
+
+.navbar-brand .navbar-title {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  .navbar-brand { width: 184px; height: 60px; }
+}
+
+/* Nav links */
+.navbar .nav-link {
+  color: var(--charcoal) !important;
+  padding: var(--space-7) var(--space-14) !important;
+  border-radius: var(--radius-nav);
+  font-size: 14px;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  background: var(--keylime-wash);
+  color: var(--forest-ink) !important;
+}
+
+/* Right-hand nav item is the primary action, styled like the site's .btn */
+.navbar .navbar-nav.ms-auto .nav-link {
+  background: var(--forest-ink);
+  color: var(--cream-paper) !important;
+  border-radius: var(--radius-card);
+  padding: var(--space-14) var(--space-21) !important;
+}
+.navbar .navbar-nav.ms-auto .nav-link:hover {
+  background: var(--forest-shadow);
+  color: var(--cream-paper) !important;
+}
+
+.navbar-toggler { border-color: var(--forest-ink); }
+
+/* ==========================================================================
+   Title block — the orchid mark sits above every page title
+   ========================================================================== */
+#title-block-header { margin-block: var(--space-42) var(--space-28); }
+
+#title-block-header .quarto-title::before {
+  content: "";
+  display: block;
+  width: 64px;    /* mark minimum is 64px */
+  height: 64px;
+  background: url("images/marquez-mark.svg") left center / contain no-repeat;
+  margin-bottom: var(--space-18);
+}
+
+h1.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--forest-ink);
+  font-size: clamp(34px, 4.4vw, 50px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.quarto-title .subtitle,
+.quarto-title p.subtitle {
+  font: 300 18px/1.45 var(--font-sans);
+  color: var(--charcoal);
+  margin-top: var(--space-14);
+  max-width: 640px;
+}
+
+.quarto-title-meta-heading {
+  font: 600 11px/1.3 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest-ink);
+}
+
+/* Category tags as pills */
+.quarto-category,
+.listing-category {
+  display: inline-flex;
+  align-items: center;
+  background: var(--keylime-wash);
+  color: var(--forest-ink);
+  border: 0 !important;
+  border-radius: var(--radius-pill);
+  padding: 6px var(--space-14);
+  font: 400 13px/1 var(--font-sans);
+  opacity: 1 !important;
+  text-transform: none;
+}
+.quarto-category:first-child,
+.listing-category:first-child {
+  background: var(--orchid-blush);
+  color: var(--orchid-burgundy);
+}
+
+/* ==========================================================================
+   Article body
+   ========================================================================== */
+main h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--forest-ink);
+  font-size: clamp(26px, 3vw, 34px);
+  line-height: 1.3;
+  margin-top: var(--space-56);
+  padding-bottom: var(--space-11);
+  border-bottom: 1px solid var(--border-mist);
+}
+main h3 {
+  font: 400 21px/1.5 var(--font-sans);
+  color: var(--forest-ink);
+  margin-top: var(--space-42);
+}
+
+.eyebrow {
+  font: 600 11px/1.3 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest-ink);
+  margin-bottom: var(--space-11);
+}
+
+/* Lead paragraph and highlight panels */
+.lead {
+  font: 300 19px/1.55 var(--font-sans);
+  color: var(--charcoal);
+}
+
+.panel-keylime,
+.panel-blush,
+.panel-sage {
+  border-radius: var(--radius-card);
+  padding: var(--space-28);
+  margin-block: var(--space-28);
+}
+.panel-keylime { background: var(--keylime-wash); }
+.panel-sage    { background: var(--sage-mist); padding: var(--space-42); }
+.panel-blush   { background: var(--blush-veil); }
+.panel-keylime > :last-child,
+.panel-blush > :last-child,
+.panel-sage > :last-child { margin-bottom: 0; }
+
+/* Stat cards */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-14);
+  margin-block: var(--space-28);
+}
+.stat-grid .stat {
+  background: var(--keylime-wash);
+  border-radius: var(--radius-card);
+  padding: var(--space-21) var(--space-28);
+}
+.stat-grid .stat:nth-child(2) { background: var(--mint-veil); }
+.stat-grid .stat:nth-child(3) { background: var(--sage-mist); }
+.stat-grid .stat:nth-child(4) { background: var(--blush-veil); }
+.stat .stat-number {
+  display: block;
+  font: 400 34px/1.15 var(--font-display);
+  color: var(--forest-ink);
+  letter-spacing: -0.02em;
+}
+.stat:nth-child(4) .stat-number { color: var(--orchid-burgundy); }
+.stat .stat-label {
+  display: block;
+  margin-top: var(--space-7);
+  font-size: 14px;
+  color: var(--charcoal);
+}
+
+/* Call to action at the end of a post */
+.cta-panel {
+  background: var(--sage-mist);
+  border-radius: var(--radius-card);
+  padding: var(--space-42);
+  margin-top: var(--space-56);
+}
+.cta-panel h3 {
+  font: 400 28px/1.3 var(--font-display);
+  margin-top: 0;
+}
+.cta-panel .btn-brand {
+  display: inline-flex;
+  margin-top: var(--space-14);
+  background: var(--forest-ink);
+  color: var(--cream-paper);
+  border-radius: var(--radius-card);
+  padding: var(--space-14) var(--space-21);
+  text-decoration: none;
+  font-size: 14px;
+}
+.cta-panel .btn-brand:hover { background: var(--forest-shadow); }
+
+/* Pull quote */
+blockquote {
+  border-left: 0;
+  padding: 0 0 0 var(--space-28);
+  position: relative;
+  font: italic 400 21px/1.5 var(--font-display);
+  color: var(--forest-ink);
+}
+blockquote::before {
+  content: "\201C";
+  position: absolute;
+  left: 0; top: -6px;
+  font: 400 42px/1 var(--font-display);
+  color: var(--orchid-burgundy);
+}
+
+/* Tables */
+.table,
+table {
+  font-size: 14px;
+  --bs-table-bg: transparent;
+}
+.table thead th,
+table thead th {
+  color: var(--forest-ink);
+  font-weight: 600;
+  border-bottom: 1px solid var(--forest-ink) !important;
+  white-space: nowrap;
+}
+.table td,
+table td { border-color: var(--border-mist); }
+caption, .table-caption {
+  color: var(--charcoal);
+  font-size: 13px;
+  caption-side: top;
+}
+
+/* Figures */
+.quarto-figure img,
+.cell-output-display img {
+  border-radius: var(--radius-card);
+  background: var(--cream-paper);
+}
+
+/* Code folding and code blocks */
+details.code-fold > summary {
+  color: var(--forest-ink);
+  font-size: 13px;
+}
+div.sourceCode,
+pre.sourceCode {
+  background: var(--keylime-wash);
+  border: 0;
+  border-radius: var(--radius-card);
+}
+
+/* Callouts — flat, no colored borders on cards */
+.callout {
+  border: 0 !important;
+  border-radius: var(--radius-card) !important;
+  background: var(--keylime-wash);
+}
+.callout .callout-header,
+.callout.callout-titled .callout-header {
+  background: transparent !important;
+  border: 0 !important;
+}
+.callout-important,
+.callout-caution { background: var(--blush-veil); }
+
+/* Table of contents */
+#TOC .nav-link,
+#quarto-margin-sidebar .nav-link { color: var(--charcoal); }
+#TOC .nav-link.active,
+#quarto-margin-sidebar .nav-link.active {
+  color: var(--forest-ink);
+  border-left-color: var(--forest-ink);
+}
+#toc-title {
+  font: 600 11px/1.3 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest-ink);
+}
+
+/* ==========================================================================
+   Blog listing — each post is a keylime card
+   ========================================================================== */
+.quarto-listing-default .quarto-post,
+.quarto-listing .quarto-post {
+  background: var(--keylime-wash);
+  border: 0 !important;
+  border-radius: var(--radius-card);
+  padding: var(--space-28);
+  margin-bottom: var(--space-21);
+}
+.quarto-post .listing-title,
+.quarto-post .listing-title a {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--forest-ink);
+  font-size: 28px;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quarto-post .listing-description { color: var(--charcoal); margin-top: var(--space-7); }
+.quarto-post .metadata,
+.quarto-post .listing-date,
+.quarto-post .listing-reading-time {
+  font: 600 11px/1.3 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest-ink);
+}
+
+/* Category sidebar on the listing page */
+.quarto-listing-category-title,
+#quarto-margin-sidebar .quarto-listing-category-title {
+  font: 600 11px/1.3 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest-ink);
+}
+.quarto-listing-category .category {
+  color: var(--charcoal);
+  border-radius: var(--radius-nav);
+  padding: 4px var(--space-7);
+}
+.quarto-listing-category .category.active,
+.quarto-listing-category .category:hover {
+  background: var(--keylime-wash);
+  color: var(--forest-ink);
+}
+
+/* ==========================================================================
+   Footer — logo drawn with CSS above the footer text
+   ========================================================================== */
+.nav-footer {
+  border-top: 1px solid var(--border-mist);
+  background: var(--cream-paper);
+  font-size: 12px;
+  padding-block: var(--space-28);
+}
+.nav-footer-left::before {
+  content: "";
+  display: block;
+  width: 196px;
+  height: 64px;
+  background: url("images/marquez-logo-horizontal.svg") left center / contain no-repeat;
+  margin-bottom: var(--space-11);
+}
+.nav-footer-left { text-align: left; }
+.nav-footer a { color: var(--forest-ink); text-decoration: none; }

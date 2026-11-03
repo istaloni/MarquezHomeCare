@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - images/
+  # After a full `quarto render`, copy _site/ into ../blog/ so the website serves it at /blog/
+  post-render: publish.R
+
+website:
+  title: "Marquez Family Home Care"
+  description: "Notes and research on helping loved ones live safely at home in San Diego County."
+  favicon: images/favicon.svg
+  navbar:
+    left:
+      - text: "Home"
+        href: ../index.html
+      - text: "Blog"
+        href: index.qmd
+    right:
+      - text: "Book a free consultation"
+        href: ../index.html#contact
+  page-footer:
+    left: "Non-medical home care organization serving San Diego County, California."
+    right: "&copy; 2026 Marquez Family Home Care LLC &middot; [(858) 280-9874](tel:8582809874)"
+
+format:
+  html:
+    theme: [cosmo, brand.scss]
+    css: styles.css
+    toc: true
+    toc-title: "On this page"
+    code-fold: true
+    code-summary: "Show the R code"
+    code-tools: false
+    fig-align: left
+    smooth-scroll: true
+
+execute:
+  warning: false
+  message: false
