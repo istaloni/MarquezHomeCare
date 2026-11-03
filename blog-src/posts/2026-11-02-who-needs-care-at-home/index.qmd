@@ -1,7 +1,7 @@
 ---
 title: "Who needs a hand at home in San Diego County?"
-subtitle: "What Census data tells us about seniors and younger adults living with a disability, from La Jolla to Rancho Bernardo."
-description: "A look at Census data on seniors and younger adults who need help with daily life, across the neighborhoods around University City, San Diego."
+subtitle: "What Census data tells us about seniors and younger adults living with a disability, from La Jolla to Chula Vista to El Cajon."
+description: "A look at Census data on seniors and younger adults who need help with daily life, across San Diego, from North City to the South Bay and East County."
 date: 2026-11-02
 categories: [Research, Seniors, Disability, San Diego]
 ---
@@ -21,10 +21,10 @@ We looked at two groups we care for:
 The Census doesn't ask whether someone "needs a caregiver." It asks about specific
 difficulties, and two of them line up closely with non-medical home care:
 
-| Census question | What it means day to day | How a caregiver helps |
-|---|---|---|
-| **Self-care difficulty** | Trouble bathing or dressing | Personal care, done with dignity |
-| **Independent-living difficulty** | Trouble running errands or getting to appointments alone | Companionship, errands, rides, meals, light housekeeping |
+| Census question | What it means day to day | In this post we call it | How a caregiver helps |
+|---|---|---|---|
+| **Self-care difficulty** | Trouble bathing or dressing | **Need personal care help** | Personal care, done with dignity |
+| **Independent-living difficulty** | Trouble running errands or getting to appointments alone | **Need errand help** | Companionship, errands, rides, meals, light housekeeping |
 
 ```{r}
 #| label: setup
@@ -32,32 +32,73 @@ library(tidyverse)
 library(tidycensus)
 library(scales)
 library(knitr)
+library(sf)
+library(leaflet)
+options(tigris_use_cache = TRUE)
 
 # ACS 5-year vintage. 2024 = the 2020–2024 survey. Drop to 2023 if load_variables() errors.
 acs_year <- 2024
 
-# Neighborhoods within a reasonable drive of our home base in 92122 (ZIP code tabulation areas)
+# Neighborhoods we serve, grouped into four regions (ZIP code tabulation areas)
+region_levels <- c("Central & North City", "Central San Diego", "South Bay", "East County")
+
 service_area <- tribble(
-  ~zcta,   ~area,
-  "92122", "University City",
-  "92037", "La Jolla",
-  "92117", "Clairemont",
-  "92111", "Linda Vista / Kearny Mesa",
-  "92123", "Serra Mesa",
-  "92124", "Tierrasanta",
-  "92126", "Mira Mesa",
-  "92121", "Sorrento Valley",
-  "92130", "Carmel Valley",
-  "92129", "Rancho Peñasquitos",
-  "92131", "Scripps Ranch",
-  "92109", "Pacific Beach",
-  "92110", "Bay Park / Morena",
-  "92108", "Mission Valley",
-  "92120", "Allied Gardens / Del Cerro",
-  "92119", "San Carlos",
-  "92128", "Rancho Bernardo",
-  "92014", "Del Mar"
-)
+  ~zcta,   ~region,                 ~area,
+  # Central & North City: around our home base in University City (92122)
+  "92122", "Central & North City", "University City",
+  "92037", "Central & North City", "La Jolla",
+  "92117", "Central & North City", "Clairemont",
+  "92111", "Central & North City", "Linda Vista / Kearny Mesa",
+  "92123", "Central & North City", "Serra Mesa",
+  "92124", "Central & North City", "Tierrasanta",
+  "92126", "Central & North City", "Mira Mesa",
+  "92121", "Central & North City", "Sorrento Valley",
+  "92130", "Central & North City", "Carmel Valley",
+  "92129", "Central & North City", "Rancho Peñasquitos",
+  "92131", "Central & North City", "Scripps Ranch",
+  "92109", "Central & North City", "Pacific Beach",
+  "92110", "Central & North City", "Bay Park / Morena",
+  "92108", "Central & North City", "Mission Valley",
+  "92120", "Central & North City", "Allied Gardens / Del Cerro",
+  "92119", "Central & North City", "San Carlos",
+  "92128", "Central & North City", "Rancho Bernardo",
+  "92014", "Central & North City", "Del Mar",
+  # Central San Diego: Mid-City, downtown, southeast and the coast west of downtown
+  "92101", "Central San Diego",    "Downtown / Little Italy",
+  "92103", "Central San Diego",    "Hillcrest / Mission Hills",
+  "92104", "Central San Diego",    "North Park",
+  "92116", "Central San Diego",    "Normal Heights / Kensington",
+  "92115", "Central San Diego",    "College Area / Rolando",
+  "92105", "Central San Diego",    "City Heights",
+  "92102", "Central San Diego",    "Golden Hill / Sherman Heights",
+  "92113", "Central San Diego",    "Logan Heights / Barrio Logan",
+  "92114", "Central San Diego",    "Encanto / Skyline",
+  "92139", "Central San Diego",    "Paradise Hills / Bay Terraces",
+  "92106", "Central San Diego",    "Point Loma",
+  "92107", "Central San Diego",    "Ocean Beach",
+  # South Bay
+  "91902", "South Bay",            "Bonita",
+  "91910", "South Bay",            "Chula Vista (northwest)",
+  "91911", "South Bay",            "Chula Vista (southwest)",
+  "91913", "South Bay",            "Chula Vista (Eastlake / Otay Ranch)",
+  "91914", "South Bay",            "Chula Vista (Eastlake northeast)",
+  "91915", "South Bay",            "Chula Vista (Eastlake Greens)",
+  "91950", "South Bay",            "National City",
+  "91932", "South Bay",            "Imperial Beach",
+  "92154", "South Bay",            "Otay Mesa / Nestor",
+  "92173", "South Bay",            "San Ysidro",
+  # East County
+  "91941", "East County",          "La Mesa / Mount Helix",
+  "91942", "East County",          "La Mesa",
+  "91945", "East County",          "Lemon Grove",
+  "91977", "East County",          "Spring Valley",
+  "91978", "East County",          "Spring Valley (east)",
+  "92020", "East County",          "El Cajon (west)",
+  "92021", "East County",          "El Cajon (east)",
+  "92019", "East County",          "El Cajon (Rancho San Diego)",
+  "92071", "East County",          "Santee"
+) |>
+  mutate(region = factor(region, levels = region_levels))
 service_zips <- service_area$zcta
 
 if (Sys.getenv("CENSUS_API_KEY") == "") {
@@ -78,8 +119,8 @@ band_labels <- c(u18 = "Under 18", a18_64 = "Adults 18–64", s65 = "Seniors 65+
 band_colors <- c("Adults 18–64" = brand$petal, "Seniors 65+" = brand$forest)
 measure_labels <- c(
   any       = "Any disability",
-  selfcare  = "Self-care difficulty\n(bathing, dressing)",
-  indliving = "Independent-living difficulty\n(errands, appointments)"
+  selfcare  = "Need personal care help",
+  indliving = "Need errand help"
 )
 
 theme_marquez <- function(base_size = 12) {
@@ -91,6 +132,8 @@ theme_marquez <- function(base_size = 12) {
       plot.subtitle      = element_text(color = brand$charcoal),
       plot.caption       = element_text(color = brand$charcoal, size = base_size - 3, hjust = 0),
       plot.caption.position = "plot",
+      strip.text.y       = element_text(angle = 0, hjust = 0, color = brand$forest, face = "bold"),
+      panel.spacing.y    = unit(14, "pt"),
       axis.text          = element_text(color = brand$charcoal),
       panel.grid.minor   = element_blank(),
       panel.grid.major.y = element_blank(),
@@ -254,7 +297,7 @@ source_caption <- paste0("Source: U.S. Census Bureau, ", acs_label, ". Data pull
 :::
 ::: {.stat}
 [`r comma(county$indliving_s65_with + county$indliving_a18_64_with)`]{.stat-number}
-[adults who have difficulty running errands or getting to appointments alone]{.stat-label}
+[adults who need errand help]{.stat-label}
 :::
 ::: {.stat}
 [`r comma(county$alone_65)`]{.stat-number}
@@ -274,9 +317,9 @@ tribble(
     comma(county$pop_18_64), comma(county$pop_65),
   "Living with any disability",
     comma(county$any_a18_64_with), comma(county$any_s65_with),
-  "Difficulty bathing or dressing",
+  "Need personal care help",
     comma(county$selfcare_a18_64_with), comma(county$selfcare_s65_with),
-  "Difficulty with errands or appointments alone",
+  "Need errand help",
     comma(county$indliving_a18_64_with), comma(county$indliving_s65_with)
 ) |>
   kable(caption = paste0("San Diego County, ", acs_label, ". Data pulled ", pulled_label, "."))
@@ -285,7 +328,7 @@ tribble(
 ```{r}
 #| label: county-chart
 #| fig-height: 4.5
-#| fig-alt: "Bar chart comparing the share of adults 18 to 64 and seniors 65 and over in San Diego County with any disability, a self-care difficulty, and an independent-living difficulty."
+#| fig-alt: "Bar chart comparing the share of adults 18 to 64 and seniors 65 and over in San Diego County with any disability, needing personal care help, and needing errand help."
 county_long |>
   filter(band %in% c("a18_64", "s65")) |>
   mutate(measure = factor(measure_labels[measure], levels = rev(measure_labels)),
@@ -312,65 +355,183 @@ large share of the people who need a hand at home**. Home care isn't only for gr
 
 ## Neighborhood by neighborhood
 
-Here's the same picture for the communities closest to our home base in University City, ranked
-by how many adults have difficulty running errands or getting to appointments on their own.
+We serve four parts of the county: the neighborhoods around our home base in University City,
+central San Diego from downtown to Mid-City and the southeast, the South Bay, and East County.
+Here's how they compare.
+
+```{r}
+#| label: region-table
+zips |>
+  group_by(Region = region) |>
+  summarise(
+    `ZIP codes`            = n(),
+    `Seniors 65+`          = sum(pop_65),
+    `Seniors 85+`          = sum(pop_85),
+    `Living alone (65+)`       = sum(alone_65) / sum(pop65_universe),
+    `Need errand help (65+)`   = sum(indliving_s65_with),
+    `Need errand help (18–64)` = sum(indliving_a18_64_with),
+    `Spanish at home (65+)`    = sum(spanish_65) / sum(pop65_lang),
+    .groups = "drop"
+  ) |>
+  mutate(
+    across(c(`Seniors 65+`, `Seniors 85+`, `Need errand help (65+)`,
+             `Need errand help (18–64)`), comma),
+    across(c(`Living alone (65+)`, `Spanish at home (65+)`), \(x) percent(x, 0.1))
+  ) |>
+  kable(align = "lrrrrrrr",
+        caption = paste0("Totals for the ZIP codes we serve. ", acs_label, ". Data pulled ", pulled_label, "."))
+```
+
+### Explore the map
+
+Choose a measure, then hover over (or tap) a neighborhood to see its numbers. Darker green
+means more people, or a higher share, for that measure.
+
+```{r}
+#| label: map-data
+# ZIP code boundaries from the Census Bureau (TIGER/Line cartographic files)
+zip_geo <- get_acs(
+  geography = "zcta", zcta = service_zips, variables = "B01001_001",
+  year = acs_year, survey = "acs5", geometry = TRUE
+) |>
+  select(GEOID, geometry) |>
+  st_transform(4326)
+
+# Share of adults (18+) with an independent-living difficulty
+need_rate <- zip_long |>
+  filter(measure == "indliving", band %in% c("a18_64", "s65")) |>
+  group_by(GEOID) |>
+  summarise(need_n = sum(with), need_universe = sum(universe), .groups = "drop") |>
+  mutate(need_pct = need_n / need_universe)
+
+map_data <- zip_geo |>
+  left_join(zips, by = "GEOID") |>
+  left_join(need_rate, by = "GEOID") |>
+  mutate(hover = sprintf(
+    "<strong>%s · %s</strong><br><span style='opacity:.75'>%s</span><br>
+     Seniors 65+: %s<br>Seniors 85+: %s<br>
+     Need errand help: %s (%s of adults)<br>
+     Living alone (65+): %s<br>Spanish at home (65+): %s",
+    GEOID, area, region,
+    comma(pop_65), comma(pop_85),
+    comma(need_n), percent(need_pct, 0.1),
+    percent(pct_alone_65, 0.1), percent(pct_spanish_65, 0.1)
+  ) |> lapply(htmltools::HTML))
+
+fmt_count <- labelFormat(big.mark = ",")
+fmt_pct   <- labelFormat(suffix = "%", transform = \(x) round(100 * x))
+
+brand_map <- function(var, legend_title, fmt) {
+  vals <- map_data[[var]]
+  pal  <- colorNumeric(c("#e1f4df", "#b1dbb8", "#4c9463", "#0f3e17"),
+                       domain = vals, na.color = "#efeeeb")
+  leaflet(map_data, height = 540, options = leafletOptions(scrollWheelZoom = FALSE)) |>
+    # Esri light gray basemap: free, no API key needed
+    addProviderTiles(providers$Esri.WorldGrayCanvas) |>
+    addPolygons(
+      fillColor = pal(vals), fillOpacity = 0.85,
+      color = "#fffefc", weight = 1.2,
+      label = ~hover,
+      labelOptions = labelOptions(direction = "auto", textsize = "13px"),
+      highlightOptions = highlightOptions(weight = 3, color = "#0f3e17", bringToFront = TRUE)
+    ) |>
+    addLegend("bottomright", pal = pal, values = vals, title = legend_title,
+              labFormat = fmt, opacity = 0.9)
+}
+```
+
+::: {.panel-tabset}
+
+#### Need errand help
+
+```{r}
+#| label: map-need
+brand_map("need_pct", "Share of adults who<br>need errand help", fmt_pct)
+```
+
+#### Seniors 65+
+
+```{r}
+#| label: map-65
+brand_map("pop_65", "Seniors 65+", fmt_count)
+```
+
+#### Seniors 85+
+
+```{r}
+#| label: map-85
+brand_map("pop_85", "Seniors 85+", fmt_count)
+```
+
+#### Living alone
+
+```{r}
+#| label: map-alone
+brand_map("pct_alone_65", "Seniors 65+<br>living alone", fmt_pct)
+```
+
+#### Spanish at home
+
+```{r}
+#| label: map-spanish
+brand_map("pct_spanish_65", "Seniors 65+ who speak<br>Spanish at home", fmt_pct)
+```
+
+:::
+
+::: {.data-note}
+Source: U.S. Census Bureau, `r acs_label`, and TIGER/Line ZIP code tabulation area
+boundaries. Data pulled from the Census on `r pulled_label`. Basemap © Esri, HERE,
+Garmin and OpenStreetMap contributors.
+:::
+
+::: {.callout-note collapse="true"}
+## See the numbers for every neighborhood
 
 ```{r}
 #| label: zip-table
 zip_rank <- zips |>
   mutate(need_adults = indliving_a18_64_with + indliving_s65_with) |>
-  arrange(desc(need_adults))
+  arrange(region, desc(need_adults))
 
 zip_rank |>
   transmute(
+    Region = region,
     ZIP = GEOID,
     Neighborhood = area,
     `Seniors 65+` = comma(pop_65),
     `Seniors 85+` = comma(pop_85),
-    `Seniors living alone` = percent(pct_alone_65, 0.1),
-    `Seniors: errands/appointments` = comma(indliving_s65_with),
-    `Adults 18–64: errands/appointments` = comma(indliving_a18_64_with),
-    `Seniors who speak Spanish at home` = percent(pct_spanish_65, 0.1)
+    `Living alone (65+)` = percent(pct_alone_65, 0.1),
+    `Need errand help (65+)` = comma(indliving_s65_with),
+    `Need errand help (18–64)` = comma(indliving_a18_64_with),
+    `Spanish at home (65+)` = percent(pct_spanish_65, 0.1)
   ) |>
-  kable(align = "llrrrrrr")
+  kable(align = "lllrrrrrr")
 ```
+
+Within each region, neighborhoods are listed from most to fewest adults who need errand help.
+:::
 
 ```{r}
 #| label: zip-need-chart
-#| fig-height: 7
-#| fig-alt: "Stacked bar chart of residents with an independent-living difficulty by ZIP code, split into adults 18 to 64 and seniors 65 and over."
+#| fig-height: 15
+#| fig-alt: "Stacked bar charts of residents with an independent-living difficulty by ZIP code, grouped into Central and North City, Central San Diego, South Bay, and East County, split into adults 18 to 64 and seniors 65 and over."
 zip_long |>
   filter(measure == "indliving", band %in% c("a18_64", "s65")) |>
   mutate(zip_label = paste(GEOID, area, sep = " · "),
          band = band_labels[band]) |>
   ggplot(aes(x = with, y = fct_reorder(zip_label, with, .fun = sum), fill = band)) +
   geom_col(width = 0.75) +
+  facet_grid(rows = vars(region), scales = "free_y", space = "free_y") +
   scale_x_continuous(labels = comma, expand = expansion(mult = c(0, 0.05))) +
   scale_fill_manual(values = band_colors) +
-  labs(x = "Residents who have trouble with errands or appointments",
-       y = NULL, fill = NULL,
-       title = "Where neighbors need a hand") +
+  labs(x = "People who need errand help", y = NULL, fill = NULL,
+       title = "Where neighbors need a hand",
+       subtitle = "Number of people who need errand help, by age group") +
   labs(caption = source_caption) +
   theme_marquez()
 ```
 
-```{r}
-#| label: zip-alone-chart
-#| fig-height: 6.5
-#| fig-alt: "Bar chart of the share of seniors living alone in each ZIP code."
-zip_rank |>
-  mutate(zip_label = paste(GEOID, area, sep = " · ")) |>
-  ggplot(aes(x = pct_alone_65, y = fct_reorder(zip_label, pct_alone_65))) +
-  geom_col(fill = brand$forest, width = 0.7) +
-  geom_text(aes(label = percent(pct_alone_65, 1)), hjust = -0.2, size = 3.3,
-            color = brand$charcoal) +
-  scale_x_continuous(labels = percent, expand = expansion(mult = c(0, 0.12))) +
-  labs(x = "Seniors (65+) who live alone", y = NULL,
-       title = "Seniors living alone, by neighborhood",
-       subtitle = "Living alone isn't a problem in itself, but it can mean no one is nearby when help is needed") +
-  labs(caption = source_caption) +
-  theme_marquez()
-```
 
 ## What this means for families
 
@@ -378,12 +539,12 @@ zip_rank |>
 **Many families in our area are caring for someone right now**, often while working full time.
 A few things stood out to us:
 
-- **Help with everyday tasks is the most common need.** More people have trouble with errands
-  and appointments than with bathing or dressing. Companionship, rides and meals matter.
+- **Help with everyday tasks is the most common need.** More people need errand help than
+  need personal care help. Companionship, rides and meals matter.
 - **Younger adults need support too.** Developmental disabilities and injuries from accidents
   affect people at every age. The San Diego Regional Center alone serves about 41,350 people
   with developmental disabilities across San Diego and Imperial counties.
-- **Language matters.** In some San Diego neighborhoods, a large share of seniors speak
+- **Language matters.** In parts of the South Bay, a large share of seniors speak
   Spanish at home. A caregiver who speaks your loved one's language makes care feel like home.
 :::
 
@@ -420,7 +581,7 @@ family caregivers.
   people living in their own homes.
 - **Neighborhood numbers are estimates** with real margins of error, especially in smaller
   ZIP codes. Treat the ranking as a general picture, not an exact count.
-- **The measures overlap.** Someone with difficulty bathing often also has difficulty with
-  errands, so the rows shouldn't be added together.
+- **The measures overlap.** Someone who needs personal care help often needs errand help too,
+  so the rows shouldn't be added together.
 - **ZIP areas are approximate.** The Census uses "ZIP code tabulation areas," which closely
   match, but don't exactly equal, postal ZIP codes.
