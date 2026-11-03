@@ -1,7 +1,7 @@
 ---
 title: "Who needs a hand at home in San Diego County?"
-subtitle: "What Census data tells us about seniors and younger adults living with a disability, from Bonita to La Mesa."
-description: "A look at Census data on seniors and younger adults who need help with daily life, across the South Bay and East County."
+subtitle: "What Census data tells us about seniors and younger adults living with a disability, from La Jolla to Rancho Bernardo."
+description: "A look at Census data on seniors and younger adults who need help with daily life, across the neighborhoods around University City, San Diego."
 date: 2026-11-02
 categories: [Research, Seniors, Disability, San Diego]
 ---
@@ -36,27 +36,27 @@ library(knitr)
 # ACS 5-year vintage. 2024 = the 2020–2024 survey. Drop to 2023 if load_variables() errors.
 acs_year <- 2024
 
-# Neighborhoods within a reasonable drive of Bonita (ZIP code tabulation areas)
+# Neighborhoods within a reasonable drive of our home base in 92122 (ZIP code tabulation areas)
 service_area <- tribble(
   ~zcta,   ~area,
-  "91902", "Bonita",
-  "91910", "Chula Vista (northwest)",
-  "91911", "Chula Vista (southwest)",
-  "91913", "Chula Vista (Eastlake / Otay Ranch)",
-  "91914", "Chula Vista (Eastlake northeast)",
-  "91915", "Chula Vista (Eastlake Greens)",
-  "91950", "National City",
-  "91932", "Imperial Beach",
-  "92154", "Otay Mesa / Nestor",
-  "92173", "San Ysidro",
-  "91977", "Spring Valley",
-  "91978", "Spring Valley (east)",
-  "91945", "Lemon Grove",
-  "91941", "La Mesa / Mount Helix",
-  "91942", "La Mesa",
-  "92139", "Paradise Hills",
-  "92114", "Encanto / Skyline",
-  "92113", "Logan Heights"
+  "92122", "University City",
+  "92037", "La Jolla",
+  "92117", "Clairemont",
+  "92111", "Linda Vista / Kearny Mesa",
+  "92123", "Serra Mesa",
+  "92124", "Tierrasanta",
+  "92126", "Mira Mesa",
+  "92121", "Sorrento Valley",
+  "92130", "Carmel Valley",
+  "92129", "Rancho Peñasquitos",
+  "92131", "Scripps Ranch",
+  "92109", "Pacific Beach",
+  "92110", "Bay Park / Morena",
+  "92108", "Mission Valley",
+  "92120", "Allied Gardens / Del Cerro",
+  "92119", "San Carlos",
+  "92128", "Rancho Bernardo",
+  "92014", "Del Mar"
 )
 service_zips <- service_area$zcta
 
@@ -89,6 +89,8 @@ theme_marquez <- function(base_size = 12) {
       plot.title         = element_text(color = brand$forest, size = base_size + 3),
       plot.title.position = "plot",
       plot.subtitle      = element_text(color = brand$charcoal),
+      plot.caption       = element_text(color = brand$charcoal, size = base_size - 3, hjust = 0),
+      plot.caption.position = "plot",
       axis.text          = element_text(color = brand$charcoal),
       panel.grid.minor   = element_blank(),
       panel.grid.major.y = element_blank(),
@@ -230,6 +232,13 @@ county      <- county_raw$wide
 county_long <- county_raw$long
 zips        <- zip_raw$wide |> left_join(service_area, by = c("GEOID" = "zcta"))
 zip_long    <- zip_raw$long |> left_join(service_area, by = c("GEOID" = "zcta"))
+
+# When the numbers were pulled from the Census API (kept with the frozen results)
+data_pulled  <- Sys.Date()
+pulled_label <- sprintf("%s %d, %s", format(data_pulled, "%B"),
+                        as.integer(format(data_pulled, "%d")), format(data_pulled, "%Y"))
+acs_label    <- paste0("American Community Survey ", acs_year - 4, "–", acs_year, " 5-year estimates")
+source_caption <- paste0("Source: U.S. Census Bureau, ", acs_label, ". Data pulled ", pulled_label, ".")
 ```
 
 ## San Diego County at a glance
@@ -253,6 +262,10 @@ zip_long    <- zip_raw$long |> left_join(service_area, by = c("GEOID" = "zcta"))
 :::
 :::
 
+::: {.data-note}
+Source: U.S. Census Bureau, `r acs_label`. Data pulled from the Census on `r pulled_label`.
+:::
+
 ```{r}
 #| label: county-table
 tribble(
@@ -266,8 +279,7 @@ tribble(
   "Difficulty with errands or appointments alone",
     comma(county$indliving_a18_64_with), comma(county$indliving_s65_with)
 ) |>
-  kable(caption = paste0("San Diego County, American Community Survey ",
-                         acs_year - 4, "–", acs_year, " 5-year estimates"))
+  kable(caption = paste0("San Diego County, ", acs_label, ". Data pulled ", pulled_label, "."))
 ```
 
 ```{r}
@@ -287,6 +299,7 @@ county_long |>
   scale_fill_manual(values = band_colors) +
   labs(x = NULL, y = NULL, fill = NULL,
        title = "The need for help grows with age, but it isn't only about age") +
+  labs(caption = source_caption) +
   theme_marquez()
 ```
 
@@ -299,7 +312,7 @@ large share of the people who need a hand at home**. Home care isn't only for gr
 
 ## Neighborhood by neighborhood
 
-Here's the same picture for the South Bay and East County communities closest to us, ranked
+Here's the same picture for the communities closest to our home base in University City, ranked
 by how many adults have difficulty running errands or getting to appointments on their own.
 
 ```{r}
@@ -334,9 +347,10 @@ zip_long |>
   geom_col(width = 0.75) +
   scale_x_continuous(labels = comma, expand = expansion(mult = c(0, 0.05))) +
   scale_fill_manual(values = band_colors) +
-  labs(x = "Residents with difficulty running errands or getting to appointments alone",
+  labs(x = "Residents who have trouble with errands or appointments",
        y = NULL, fill = NULL,
        title = "Where neighbors need a hand") +
+  labs(caption = source_caption) +
   theme_marquez()
 ```
 
@@ -354,6 +368,7 @@ zip_rank |>
   labs(x = "Seniors (65+) who live alone", y = NULL,
        title = "Seniors living alone, by neighborhood",
        subtitle = "Living alone isn't a problem in itself, but it can mean no one is nearby when help is needed") +
+  labs(caption = source_caption) +
   theme_marquez()
 ```
 
@@ -368,7 +383,7 @@ A few things stood out to us:
 - **Younger adults need support too.** Developmental disabilities and injuries from accidents
   affect people at every age. The San Diego Regional Center alone serves about 41,350 people
   with developmental disabilities across San Diego and Imperial counties.
-- **Language matters.** In several South Bay neighborhoods, a large share of seniors speak
+- **Language matters.** In some San Diego neighborhoods, a large share of seniors speak
   Spanish at home. A caregiver who speaks your loved one's language makes care feel like home.
 :::
 
@@ -384,6 +399,7 @@ family caregivers.
 
 ## About the data
 
+- **Data pulled:** `r pulled_label`, from the Census Bureau API.
 - **Source:** U.S. Census Bureau, American Community Survey `r acs_year - 4`–`r acs_year`
   5-year estimates (tables B01001, B18106, B18107, C18108, B09020, B16004), pulled with the
   `tidycensus` R package. Regional Center figure: San Diego Regional Center FY 2023–24

@@ -231,6 +231,14 @@ main h3 {
   color: var(--charcoal);
 }
 
+/* Source and "data pulled" note */
+.data-note {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--charcoal);
+  margin: calc(var(--space-14) * -1) 0 var(--space-28);
+}
+
 /* Call to action at the end of a post */
 .cta-panel {
   background: var(--sage-mist);
