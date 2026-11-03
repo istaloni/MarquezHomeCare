@@ -387,6 +387,18 @@ A few things stood out to us:
   Spanish at home. A caregiver who speaks your loved one's language makes care feel like home.
 :::
 
+## Why we're building this
+
+::: {.panel-blush}
+We didn't start Marquez Family Home Care to compete with the agencies already caring for
+San Diego families. We started it because the need keeps growing. Every year, more of our
+neighbors reach the age when everyday tasks get harder, and more younger adults are living
+with a disability or recovering from an injury. Many families are already stretched thin.
+
+Our goal is to help fill that gap, alongside everyone else doing this work, so that more
+people can stay safe, comfortable and independent in the homes they love.
+:::
+
 ::: {.cta-panel}
 ### Wondering whether your loved one could use some help?
 

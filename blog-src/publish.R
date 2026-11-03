@@ -1,14 +1,9 @@
-# Runs automatically after `quarto render` (post-render in _quarto.yml).
-# Copies the rendered blog from _site/ into ../blog/ so the website serves it at /blog/.
-# Skipped during `quarto preview` and single-file renders, which only touch _site/.
-
-if (!nzchar(Sys.getenv("QUARTO_PROJECT_RENDER_ALL"))) quit(save = "no")
+# Runs automatically after every render (post-render in _quarto.yml), including
+# RStudio's Render button. Copies the rendered blog from _site/ into ../blog/
+# so the website serves it at /blog/. ../blog/ is generated output: never edit it by hand.
 
 src  <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR", "_site")
 dest <- file.path("..", "blog")
-
-# ../blog/ is generated output only. Never edit files there by hand.
-unlink(dest, recursive = TRUE)
 dir.create(dest, showWarnings = FALSE)
 
 files <- list.files(src, recursive = TRUE, all.files = TRUE, no.. = TRUE)

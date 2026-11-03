@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Notes from our family",
     "section": "",
-    "text": "Who needs a hand at home in San Diego County?\n\n\n\nResearch\n\nSeniors\n\nDisability\n\nSan Diego\n\n\n\nA look at Census data on seniors and younger adults who need help with daily life, across the neighborhoods around University City, San Diego.\n\n\n\n\n\nNovember 2, 2026\n\n13 min\n\n\n\n\nNo matching items"
+    "text": "Who needs a hand at home in San Diego County?\n\n\n\nResearch\n\nSeniors\n\nDisability\n\nSan Diego\n\n\n\nA look at Census data on seniors and younger adults who need help with daily life, across the neighborhoods around University City, San Diego.\n\n\n\n\n\nNovember 2, 2026\n\n14 min\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/2026-11-02-who-needs-care-at-home/index.html",
@@ -32,7 +32,7 @@
     "href": "posts/2026-11-02-who-needs-care-at-home/index.html#what-this-means-for-families",
     "title": "Who needs a hand at home in San Diego County?",
     "section": "What this means for families",
-    "text": "What this means for families\n\nMany families in our area are caring for someone right now, often while working full time. A few things stood out to us:\n\nHelp with everyday tasks is the most common need. More people have trouble with errands and appointments than with bathing or dressing. Companionship, rides and meals matter.\nYounger adults need support too. Developmental disabilities and injuries from accidents affect people at every age. The San Diego Regional Center alone serves about 41,350 people with developmental disabilities across San Diego and Imperial counties.\nLanguage matters. In some San Diego neighborhoods, a large share of seniors speak Spanish at home. A caregiver who speaks your loved one’s language makes care feel like home.\n\n\n\nWondering whether your loved one could use some help?\nWe’re happy to talk it through, with no pressure and no obligation. Marquez Family Home Care provides non-medical support: personal care, companionship, meals, errands and respite for family caregivers.\nBook a free consultation"
+    "text": "What this means for families\n\nMany families in our area are caring for someone right now, often while working full time. A few things stood out to us:\n\nHelp with everyday tasks is the most common need. More people have trouble with errands and appointments than with bathing or dressing. Companionship, rides and meals matter.\nYounger adults need support too. Developmental disabilities and injuries from accidents affect people at every age. The San Diego Regional Center alone serves about 41,350 people with developmental disabilities across San Diego and Imperial counties.\nLanguage matters. In some San Diego neighborhoods, a large share of seniors speak Spanish at home. A caregiver who speaks your loved one’s language makes care feel like home."
   },
   {
     "objectID": "posts/2026-11-02-who-needs-care-at-home/index.html#about-the-data",
@@ -40,5 +40,12 @@
     "title": "Who needs a hand at home in San Diego County?",
     "section": "About the data",
     "text": "About the data\n\nData pulled: November 2, 2026, from the Census Bureau API.\nSource: U.S. Census Bureau, American Community Survey 2020–2024 5-year estimates (tables B01001, B18106, B18107, C18108, B09020, B16004), pulled with the tidycensus R package. Regional Center figure: San Diego Regional Center FY 2023–24 Performance Report, CA Department of Developmental Services.\nPeople living in nursing homes aren’t included, which suits our purpose: these are people living in their own homes.\nNeighborhood numbers are estimates with real margins of error, especially in smaller ZIP codes. Treat the ranking as a general picture, not an exact count.\nThe measures overlap. Someone with difficulty bathing often also has difficulty with errands, so the rows shouldn’t be added together.\nZIP areas are approximate. The Census uses “ZIP code tabulation areas,” which closely match, but don’t exactly equal, postal ZIP codes."
+  },
+  {
+    "objectID": "posts/2026-11-02-who-needs-care-at-home/index.html#why-were-building-this",
+    "href": "posts/2026-11-02-who-needs-care-at-home/index.html#why-were-building-this",
+    "title": "Who needs a hand at home in San Diego County?",
+    "section": "Why we’re building this",
+    "text": "Why we’re building this\n\nWe didn’t start Marquez Family Home Care to compete with the agencies already caring for San Diego families. We started it because the need keeps growing. Every year, more of our neighbors reach the age when everyday tasks get harder, and more younger adults are living with a disability or recovering from an injury. Many families are already stretched thin.\nOur goal is to help fill that gap, alongside everyone else doing this work, so that more people can stay safe, comfortable and independent in the homes they love.\n\n\nWondering whether your loved one could use some help?\nWe’re happy to talk it through, with no pressure and no obligation. Marquez Family Home Care provides non-medical support: personal care, companionship, meals, errands and respite for family caregivers.\nBook a free consultation"
   }
 ]
